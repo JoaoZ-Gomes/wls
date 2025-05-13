@@ -2,17 +2,17 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-// Matrizes globais
+//Fazer Multiplicação de matrizes
 int **A, **B, **C;
 int linhasA, colunasA, colunasB;
 
-// Estrutura para passar os índices da célula C[i][j]
+/
 typedef struct {
     int linha;
     int coluna;
 } DadosCelula;
 
-// Cada thread calcula um elemento da matriz C
+
 void *calcula_celula(void *arg) {
     DadosCelula *dados = (DadosCelula *)arg;
     int i = dados->linha;
@@ -20,7 +20,7 @@ void *calcula_celula(void *arg) {
 
     C[i][j] = 0;
 
-    // Faz a multiplicação da linha de A pela coluna de B
+    
     for (int k = 0; k < colunasA; k++) {
         C[i][j] += A[i][k] * B[k][j];
     }
@@ -39,7 +39,7 @@ int main() {
     printf("Informe o número de colunas da matriz B: ");
     scanf("%d", &colunasB);
 
-    // Alocação das matrizes A, B e C
+    
     A = malloc(linhasA * sizeof(int *));
     B = malloc(colunasA * sizeof(int *));
     C = malloc(linhasA * sizeof(int *));
@@ -51,7 +51,7 @@ int main() {
         B[i] = malloc(colunasB * sizeof(int));
     }
 
-    // Entrada de dados da matriz A
+    
     printf("\nDigite os valores da matriz A (%dx%d):\n", linhasA, colunasA);
     for (int i = 0; i < linhasA; i++) {
         for (int j = 0; j < colunasA; j++) {
@@ -60,7 +60,7 @@ int main() {
         }
     }
 
-    // Entrada de dados da matriz B
+    
     printf("\nDigite os valores da matriz B (%dx%d):\n", colunasA, colunasB);
     for (int i = 0; i < colunasA; i++) {
         for (int j = 0; j < colunasB; j++) {
@@ -69,7 +69,7 @@ int main() {
         }
     }
 
-    // Criação de uma thread para cada célula da matriz C
+    
     pthread_t threads[linhasA][colunasB];
 
     for (int i = 0; i < linhasA; i++) {
@@ -81,14 +81,14 @@ int main() {
         }
     }
 
-    // Espera todas as threads terminarem
+    
     for (int i = 0; i < linhasA; i++) {
         for (int j = 0; j < colunasB; j++) {
             pthread_join(threads[i][j], NULL);
         }
     }
 
-    // Exibe a matriz C resultante
+    
     printf("\nMatriz Resultado C (%dx%d):\n", linhasA, colunasB);
     for (int i = 0; i < linhasA; i++) {
         for (int j = 0; j < colunasB; j++) {
@@ -97,7 +97,7 @@ int main() {
         printf("\n");
     }
 
-    // Libera a memória
+    
     for (int i = 0; i < linhasA; i++) {
         free(A[i]);
         free(C[i]);
